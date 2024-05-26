@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { PlayingState } from './speech';
+import { PlayingState, createSpeechEngine } from './speech';
 
 /*
   @description
@@ -13,12 +13,52 @@ import { PlayingState } from './speech';
 const useSpeech = (sentences: Array<string>) => {
   const [currentSentenceIdx, setCurrentSentenceIdx] = useState(0);
   const [currentWordRange, setCurrentWordRange] = useState([0, 0]);
-
   const [playbackState, setPlaybackState] = useState<PlayingState>("paused");
+  useEffect(()=>{
+    console.log(sentences)
+    setCurrentSentenceIdx(0)
+    setCurrentWordRange([0, 0])
+  }, [sentences])
 
-  const play = () => {};
-  const pause = () => {};
+  const onEndSpeectSentence = ()=> {
+    const nextSentence = currentSentenceIdx < sentences.length ? currentSentenceIdx + 1 : currentSentenceIdx
+    if (nextSentence === sentences.length) {
+      setPlaybackState('ended')
+      setCurrentSentenceIdx(0)
+    } else {
+      setCurrentSentenceIdx(nextSentence)
+    }
+  }
+  const onStateUpdate = (state: any)=> {
+  
+  }
+  const speechEngine = createSpeechEngine({
+    onBoundary: ()=> {},
+    onEnd: ()=> onEndSpeectSentence(),
+    onStateUpdate: ()=> onStateUpdate
+  })
+  const play = () => {
+    if (playbackState === 'playing'){
+      setPlaybackState("paused")
+      return
+    }
+    setPlaybackState("playing")
+  };
+  const pause = () => {
+    speechEngine.pause()
+    setPlaybackState("paused")
+  };
+  const playSound = ()=> {
+    const sentenceToplay = sentences[currentSentenceIdx] 
+    speechEngine.load(sentenceToplay)
+    speechEngine.play()
+  }
 
+  useEffect(()=> {
+    if (playbackState === "playing"){
+      playSound()
+    }
+  }, [currentSentenceIdx, playbackState])
   return {
     currentSentenceIdx,
     currentWordRange,

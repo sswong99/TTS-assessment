@@ -4,9 +4,34 @@
 
 .currently-reading .currently-reading-text { 
     font-size: 24px;
+    background: yellow;
 }
 
 .currently-reading .currently-reading-text .currentword { 
     font-size: 24px;
     color: red;
+}
+
+.button {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  .highlight {
+    background: yellow
+  }
+
+  button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }

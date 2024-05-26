@@ -16,5 +16,11 @@ export const CurrentlyReading = ({
   currentSentenceIdx: number;
   sentences: string[];
 }) => {
-  return <div data-testid="currently-reading"></div>;
+  return <div data-testid="currently-reading" className="currently-reading">
+    {sentences.map((res, index) => {
+      const highLightArea = index === currentSentenceIdx
+      return <div className={highLightArea ? 'currently-reading-text' : ''}>{res}</div>
+    })}
+
+  </div>;
 };
