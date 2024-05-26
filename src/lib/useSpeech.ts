@@ -15,7 +15,6 @@ const useSpeech = (sentences: Array<string>) => {
   const [currentWordRange, setCurrentWordRange] = useState([0, 0]);
   const [playbackState, setPlaybackState] = useState<PlayingState>("paused");
   useEffect(()=>{
-    console.log(sentences)
     setCurrentSentenceIdx(0)
     setCurrentWordRange([0, 0])
   }, [sentences])
@@ -32,8 +31,11 @@ const useSpeech = (sentences: Array<string>) => {
   const onStateUpdate = (state: any)=> {
   
   }
+  const onBoundary = (e: any)=> {
+    setCurrentWordRange([e.charIndex, e.charIndex + e.charLength])
+  }
   const speechEngine = createSpeechEngine({
-    onBoundary: ()=> {},
+    onBoundary: onBoundary,
     onEnd: ()=> onEndSpeectSentence(),
     onStateUpdate: ()=> onStateUpdate
   })

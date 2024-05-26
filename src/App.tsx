@@ -29,7 +29,7 @@ function App() {
       <div>
         <CurrentlyReading sentences={sentences}
           currentSentenceIdx={currentSentenceIdx}
-          currentWordRange={[0, 0]}
+          currentWordRange={currentWordRange}
         />
       </div>
       <div>

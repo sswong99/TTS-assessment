@@ -19,7 +19,13 @@ export const CurrentlyReading = ({
   return <div data-testid="currently-reading" className="currently-reading">
     {sentences.map((res, index) => {
       const highLightArea = index === currentSentenceIdx
-      return <div className={highLightArea ? 'currently-reading-text' : ''}>{res}</div>
+      const charArray = res.split("")
+      return <div className={highLightArea ? 'currently-reading-text' : ''}>
+        {charArray.map((single_char, single_index) => {
+          let highLightWord = highLightArea && (single_index >= currentWordRange[0] && single_index <= currentWordRange[1])
+          return <span className={highLightWord ? 'highlightWord' : ''}>{single_char}</span>
+        })}
+      </div>
     })}
 
   </div>;
